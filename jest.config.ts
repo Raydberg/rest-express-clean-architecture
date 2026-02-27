@@ -12,6 +12,17 @@ const config: Config = {
     "\\\\node_modules\\\\",
     "\\\\dist\\\\"
   ],
+  transform: {
+    '^.+\\.tsx?$': [
+      'ts-jest',
+      {
+        tsconfig: 'tsconfig.json',
+      },
+    ],
+  },
+  transformIgnorePatterns: [
+    'node_modules/(?!.*)'
+  ],
 };
 
 export default config;

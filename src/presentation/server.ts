@@ -1,10 +1,5 @@
 import express, { Router, type Request, type Response } from 'express';
 import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
 
 interface Options {
     port: number,
@@ -14,7 +9,8 @@ interface Options {
 
 export class Server {
 
-    private app = express()
+    public readonly app = express()
+    private serverListener?: any;
     private readonly port: number;
     private readonly publicPath: string;
     private readonly routes: Router;
@@ -45,12 +41,17 @@ export class Server {
         //* SPA
         this.app.use((req, res) => {
             console.log(req.url)
-            const indexPath = path.join(__dirname + `../../../${this.publicPath}/index.html`)
+            // En CommonJS, __dirname está disponible nativamente
+            const indexPath = path.join(__dirname, '../../', this.publicPath, 'index.html')
             res.sendFile(indexPath)
         })
 
-        this.app.listen(this.port, () => {
+        this.serverListener = this.app.listen(this.port, () => {
             console.log(`Sever running on port ${this.port}`)
         })
+    }
+
+    public close() {
+        this.serverListener?.close();
     }
 }
