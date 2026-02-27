@@ -1,4 +1,4 @@
-import express, { Router, type Request, type Response } from 'express';
+import express, { Router } from 'express';
 import path from 'path';
 
 interface Options {
@@ -23,7 +23,6 @@ export class Server {
         this.routes = routes
     }
 
-
     async start() {
 
         //* Middlewares
@@ -41,7 +40,6 @@ export class Server {
         //* SPA
         this.app.use((req, res) => {
             console.log(req.url)
-            // En CommonJS, __dirname está disponible nativamente
             const indexPath = path.join(__dirname, '../../', this.publicPath, 'index.html')
             res.sendFile(indexPath)
         })
