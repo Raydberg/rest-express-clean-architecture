@@ -11,11 +11,8 @@ describe("Testing in routes", () => {
 
     afterAll(async () => {
         testServer.close()
-        Promise.all([
-            await disconnectPrisma(),
-            await prisma.todo.deleteMany()
-        ]
-        )
+        await prisma.todo.deleteMany()
+        await disconnectPrisma()
     })
 
     afterEach(async () => {
@@ -61,7 +58,7 @@ describe("Testing in routes", () => {
         const todoId = 999
         const { body } = await request(testServer.app)
             .get(`/api/todos/${todoId}`)
-            .expect(400)
+            .expect(404)
         expect(body).toEqual(expect.objectContaining({
             error: `Todo with id ${todoId} not found`
         }))
@@ -124,7 +121,7 @@ describe("Testing in routes", () => {
         const { body } = await request(testServer.app)
             .put(`/api/todos/${todoId}`)
             .send({ text: "Hola Mundo update", completedAt: "2023-10-21" })
-            .expect(400)
+            .expect(404)
 
         // console.log(body)
         expect(body).toEqual({ error: `Todo with id ${todoId} not found` })
@@ -196,11 +193,9 @@ describe("Testing in routes", () => {
 
         const { body } = await request(testServer.app)
             .delete(`/api/todos/${todoId}`)
-            .expect(400)
-        console.log(body)
+            .expect(404)
 
         expect(body).toEqual({ error: 'Todo with id 999 not found' })
     })
 })
-
 
