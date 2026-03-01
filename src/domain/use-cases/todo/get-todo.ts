@@ -8,6 +8,6 @@ export interface GetTodoUseCase {
 export class GetTodo implements GetTodoUseCase {
     constructor(private readonly repository: TodoRepository) { }
     execute(id: number): Promise<TodoEntity> {
-        return this.repository.deleteById(id)
+        return this.repository.findById(id)
     }
 }
