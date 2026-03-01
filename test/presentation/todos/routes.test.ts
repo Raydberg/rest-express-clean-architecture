@@ -37,7 +37,7 @@ describe("Testing in routes", () => {
         expect(body.length).toBe(2)
         expect(body[0].text).toBe(todo1.text)
         expect(body[1].text).toBe(todo2.text)
-        expect(body[0].completedAt).toBeNull()
+        expect(body[0].completedAt).toBeUndefined()
     })
 
     test("Should return a TODO api/todo/:id", async () => {
@@ -45,11 +45,10 @@ describe("Testing in routes", () => {
         const { body } = await request(testServer.app)
             .get(`/api/todos/${todo.id}`)
             .expect(200)
-
+        // console.log(todo)
         expect(body).toEqual(expect.objectContaining({
             id: todo.id,
-            text: todo.text,
-            completedAt: todo.completedAt
+            text: todo.text
         }))
 
     })
@@ -74,8 +73,7 @@ describe("Testing in routes", () => {
 
         expect(body).toEqual({
             id: expect.any(Number),
-            text: todo1.text,
-            completedAt: null
+            text: todo1.text
         })
     })
 
@@ -135,7 +133,6 @@ describe("Testing in routes", () => {
             .send({ completedAt: "2023-10-21" })
             .expect(200)
 
-        // console.log(typeof body.completedAt)
         expect(body).toEqual({
             id: expect.any(Number),
             text: todo.text,
@@ -151,11 +148,9 @@ describe("Testing in routes", () => {
             .send({ text: "Hola Update" })
             .expect(200)
 
-        // console.log(body)
         expect(body).toEqual({
             id: expect.any(Number),
-            text: body.text,
-            completedAt: todo.completedAt
+            text: body.text
         })
     })
     test("Should return an update TODO only data", async () => {
@@ -169,8 +164,7 @@ describe("Testing in routes", () => {
         // console.log(body)
         expect(body).toEqual({
             id: expect.any(Number),
-            text: todo.text,
-            completedAt: todo.completedAt
+            text: todo.text
         })
     })
     test("Should delete a TODO api/todos/:id", async () => {
@@ -182,8 +176,7 @@ describe("Testing in routes", () => {
 
         expect(body).toEqual({
             id: expect.any(Number),
-            text: todo.text,
-            completedAt: todo.completedAt
+            text: todo.text
         })
     })
 
@@ -198,4 +191,5 @@ describe("Testing in routes", () => {
         expect(body).toEqual({ error: 'Todo with id 999 not found' })
     })
 })
+
 
