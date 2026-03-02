@@ -22,6 +22,7 @@ export class TodosController {
     }
 
     getTodos = (req: Request, res: Response) => {
+        // console.log("getTodos")
         new GetTodos(this.todoRepository)
             .execute()
             .then(todos => res.json(todos))

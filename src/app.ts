@@ -3,8 +3,8 @@ import { AppRoutes } from "./presentation/routes"
 import { Server } from "./presentation/server"
 
 
-(() => {
-    main()
+(async () => {
+    await main()
 })()
 
 
@@ -14,5 +14,6 @@ async function main() {
         public_path: envs.PUBLIC_PATH,
         routes: AppRoutes.routes
     })
-    server.start()
+    // // console.log("tesst")
+    await server.start()
 }
